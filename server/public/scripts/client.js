@@ -1,5 +1,3 @@
-const { response } = require("express");
-
 $(document).ready(onReady);
 
 function onReady() {
@@ -15,11 +13,13 @@ function onReady() {
 // defining event handler for click of #submit-button
 function addGuess(event){
   event.preventDefault();
-  console.log( 'Guess added!' );
+  console.log( 'Guess added!', guesses );
   
   const guess1 = $('#player-one-guess').val();
   const guess2 = $('#player-two-guess').val();
-
+  let randomNum = 0
+  let round = 0;
+  round++;
 
   $('#player-one-guess').val('');
   $('#player-two-guess').val('');
@@ -33,9 +33,42 @@ function addGuess(event){
     }
   }).then(function(response){
     console.log( 'Posted' );
-    getGuesses();
+    // getGuesses();
   }).catch(function(error){
     alert('Error with guess POST!');
     console.log( 'Error with post:', error);
   })
+
+  renderToDom();
+
+}
+
+function renderToDom(guesses){
+  $('#guesses').empty();
+
+  for (let guess of guesses){
+    // conditional for winner
+    $('#guesses-body').append(`
+      <tr>
+        <td>${round}</td>
+        <td>${guess1}</td>
+        <td>${guess2}</td>
+      </tr>
+    `)
+  }
+  if (guess1 === randomNum  && guess2 !== randomNum){
+    $('#winnings').append(`
+    Player 1 is the Winner!
+    `)
+  }
+  else if(guess2 === randomNum && guess1 !== randomNum){
+    $('#winnings').append(`
+    Player 2 is the Winner! Fatality!
+    `)
+  }
+  else if(guess1 === randomNum && guess2 === randomNum){
+    $('#winnings').append(`
+    Double Fatality! ☀️🌈🦄
+    `)
+  };
 }
