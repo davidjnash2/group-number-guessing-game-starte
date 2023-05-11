@@ -11,6 +11,39 @@
   <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
 </head>
 <body>
-    <h1>YOUR GAME HERE!</h1>
+  <main>
+    <div id="put-stuff">
+        <h1>YOUR GAME HERE!</h1>
+        <form id="input-fields">
+          <input 
+          id="player-one-guess" 
+          type="number" 
+          placeholder="Ready Player 1"
+          required
+          autocomplete="off"/>
+          <input 
+          id="player-two-guess" 
+          type="number" 
+          placeholder="Ready Player 2"
+          required
+          autocomplete="off"/>
+          <button type="submit" id="submit-button">PLAY!</button>
+        </form>
+      </div>
+      <div id="guesses">
+        <table>
+          <thead>
+            <tr>
+              <th>Rounds</th>
+              <th>Player 1 Guess</th>
+              <th>Player 2 Guess</th>
+            </tr>
+          </thead>
+          <tbody id="guesses-body">
+          </tbody>
+          <tfoot id="winnings"></tfoot>
+        </table>
+      </div>
+    </main>
 </body>
 </html>
