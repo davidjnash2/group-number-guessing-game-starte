@@ -6,22 +6,20 @@ function onReady() {
   // add submit button collect input data
   $('#submit-button').on('click', addGuess);
 
-  //
-  getResults();
- 
+  getResults(); // when page loads, get function to load data
 }
 
 // defining event handler for click of #submit-button
 function addGuess(event){
+  event.preventDefault();
   let guess1 = $('#player-one-guess').val();
   let guess2 = $('#player-two-guess').val();
+  console.log('Guesses are:', guess1, guess2);
 
   event.preventDefault();
-  console.log( 'Guess added!');
+  console.log( 'Guess added!', guess1, guess2);
   
-  $('#player-one-guess').val('');
-  $('#player-two-guess').val('');
-
+  
   $.ajax({
     method: 'POST',
     url: '/guesses',
@@ -36,18 +34,22 @@ function addGuess(event){
     alert('Error with guess POST!');
     console.log( 'Error with post:', error);
   })
+  $('#player-one-guess').val('');
+  $('#player-two-guess').val('');
+
 }
 
+let rounds = 1;
 
 ////// modify after evaluation is built
 function renderToDom(results){
-  $('#guesses').empty();
-  console.log('The results are:', results)
+  $('#guesses-body').empty();
+  console.log('The results are:', results);
   for (let result of results){
     // conditional for winner
     $('#guesses-body').append(`
       <tr>
-        <td>${result.round}</td>
+        <td>${rounds++}</td>
         <td>${result.guess1}</td>
         <td>${result.result1}</td>
         <td>${result.guess2}</td>
@@ -59,10 +61,10 @@ function renderToDom(results){
   
   
 
-function getResults(){
+function getResults() {
   $.ajax({
     method: 'GET',
-    url: '/didIWin'
+    url: '/results'
   }).then(function (response){
     console.log('The winning number is:', response);
     renderToDom(response);
